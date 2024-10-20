@@ -1,0 +1,146 @@
+import telebot
+from config import token
+import random
+import os
+print(os.listdir('images'))
+    
+bot = telebot.TeleBot(token)
+    
+@bot.message_handler(commands=['start'])
+def send_welcome(message):
+    bot.reply_to(message, "Hello, I'm Ivy! I'm your Telegram ecology bot!")
+    
+@bot.message_handler(commands=['hello'])
+def send_hello(message):
+    bot.reply_to(message, "Hi there!")
+    
+@bot.message_handler(commands=['bye'])
+def send_bye(message):
+    bot.reply_to(message, "Bye, see you later!")
+
+
+@bot.message_handler(commands=['help'])
+def help(message):
+    bot.reply_to(message, (
+        "Here are the commands I can respond to:\n"
+        " \n"
+        "/glass_decomposition - Learn about glass decomposition\n"
+        "/plastic_decomposition - Learn about plastic decomposition\n"
+        "/paper_decomposition - Learn about paper decomposition\n"
+        "/paper_towel_decomposition - Learn about paper towel decomposition\n"
+        "/cartboard_decomposition - Learn about cardboard decomposition\n"
+        "/aluminium_decomposition - Learn about aluminium decomposition\n"
+        "/cigarette_decomposition - Learn about cigarette decomposition\n"
+        " \n"
+        "/plastic_bottle - Learn about plastic bottle disposal\n"
+        "/glass_bottle - Learn about glass bottle disposal\n"
+        "/paper - Learn about paper disposal\n"
+        "/banana_peel - Learn about banana peel disposal\n"
+        "/battery - Learn about battery hazards and disposal\n"
+        "/aluminum_can - Learn about aluminum can disposal\n"
+        "/plastic_bag - Learn about plastic bag disposal\n"
+        "/styrofoam - Learn about Styrofoam disposal\n"
+        "/food_waste - Learn about food waste disposal\n"
+        "/electronics - Learn about electronics disposal\n"
+        "/lightbulb - Learn about lightbulb disposal\n"
+        " \n"
+        "/ideas - sends you ideas of recycling certain items."
+        " \n"
+        "/battery - Learn about battery hazards\n"
+        " \n"
+        "/hello - Greet the bot\n"
+        "/bye - Say goodbye\n"
+        "/start - Start the conversation\n"
+        " \n"
+        "/help - Show this help message"
+    ))
+
+
+
+@bot.message_handler(commands=['glass_decomposition'])
+def glass(message):
+    bot.reply_to(message, "decomposition of glass: over 4000 years")
+
+@bot.message_handler(commands=['plastic_decomposition'])
+def plastic(message):
+    bot.reply_to(message, "decomposition of plastic: around 500 years")
+
+@bot.message_handler(commands=['paper_decomposition'])
+def paper(message):
+    bot.reply_to(message, "decomposition of paper: from 2 to 5 months")
+
+@bot.message_handler(commands=['paper_towel_decomposition'])
+def paper_towel(message):
+    bot.reply_to(message, "decomposition of paper towel: from 2 to 3 weeks")
+
+@bot.message_handler(commands=['cartboard_decomposition'])
+def cartboard(message):
+    bot.reply_to(message, "decomposition of cartboard: 2 months")
+
+@bot.message_handler(commands=['aluminium_decomposition'])
+def aluminium(message):
+    bot.reply_to(message, "decomposition of aluminium: from 200 to 500 years")
+
+@bot.message_handler(commands=['cigarette_decomposition'])
+def cigarette(message):
+    bot.reply_to(message, "decomposition of cigarette: from 1 to 5 years")
+    
+
+@bot.message_handler(commands=['battery'])
+def battery(message):
+    bot.reply_to(message, "When household batteries get thrown into the trash they get sent to landfills. During the decomposition process batteries have the potential to leak harmful chemicals into the soil, potentially making their way into our water supply. If able to decompose, they can take over 100 years to fully decompose. This means they should not be put into your household rubbish when they no longer work or are no longer wanted. Instead, they should be taken to an appropriate collection point for recycling.")
+
+@bot.message_handler(commands=['ideas'])
+def send_random_photo(message):
+    image_files = os.listdir('images')
+    img_name = random.choice(image_files)
+    with open(f'images/{img_name}', 'rb') as img:
+        bot.send_photo(message.chat.id, img)
+
+@bot.message_handler(commands=['plastic_bottle'])
+def p_bottle(message):
+    bot.reply_to(message, "Plastic bottle: recyclable")
+
+@bot.message_handler(commands=['glass_bottle'])
+def g_bottle(message):
+    bot.reply_to(message, "Glass bottle: recyclable")
+
+@bot.message_handler(commands=['paper'])
+def p(message):
+    bot.reply_to(message, "Paper: recyclable")
+
+@bot.message_handler(commands=['banana_peel'])
+def banana_peel(message):
+    bot.reply_to(message, "Banana peel: organic waste")
+
+@bot.message_handler(commands=['aluminum_can'])
+def al(message):
+    bot.reply_to(message, "Aluminum can: recyclable")
+
+@bot.message_handler(commands=['plastic_bag'])
+def p_bag(message):
+    bot.reply_to(message, "Plastic bag: recyclable")
+
+@bot.message_handler(commands=['styrofoam'])
+def styrofoam(message):
+    bot.reply_to(message, "Styrofoam: non-recyclable, dispose in regular trash")
+
+@bot.message_handler(commands=['food_waste'])
+def food_waste(message):
+    bot.reply_to(message, "Food waste: organic waste")
+
+@bot.message_handler(commands=['electronics'])
+def electronics(message):
+    bot.reply_to(message, "Electronics: hazardous waste, recycle at e-waste points")
+
+@bot.message_handler(commands=['lightbulb'])
+def lightbulb(message):
+    bot.reply_to(message, "Lightbulb: hazardous waste, recycle at special points")
+
+
+@bot.message_handler(func=lambda message: True)
+def echo_all(message):
+    bot.reply_to(message, message.text)
+
+
+bot.polling(interval=2, timeout=50)
